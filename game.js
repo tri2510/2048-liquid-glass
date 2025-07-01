@@ -1,6 +1,7 @@
 class Game2048 {
     constructor() {
         this.grid = [];
+        this.previousGrid = [];
         this.score = 0;
         this.best = localStorage.getItem('best2048') || 0;
         this.size = 4;
@@ -9,6 +10,9 @@ class Game2048 {
         this.bestDisplay = document.getElementById('best');
         this.messageContainer = document.querySelector('.game-message');
         this.messageText = document.querySelector('.game-message p');
+        this.tileIdCounter = 0;
+        this.tiles = new Map(); // Track tiles with unique IDs
+        this.isAnimating = false;
         
         this.init();
         this.bindEvents();
@@ -17,6 +21,9 @@ class Game2048 {
     init() {
         this.grid = Array(this.size).fill().map(() => Array(this.size).fill(0));
         this.score = 0;
+        this.tileIdCounter = 0;
+        this.tiles.clear();
+        this.isAnimating = false;
         this.updateScore();
         this.clearMessage();
         this.addNewTile();
@@ -31,31 +38,48 @@ class Game2048 {
         document.addEventListener('keydown', (e) => {
             if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                 e.preventDefault();
-                this.move(e.key.replace('Arrow', '').toLowerCase());
+                if (!this.isAnimating) {
+                    this.move(e.key.replace('Arrow', '').toLowerCase());
+                }
             }
         });
         
         let touchStartX = 0;
         let touchStartY = 0;
+        let touchStartTime = 0;
         
-        document.addEventListener('touchstart', (e) => {
+        // Prevent default touch behaviors on the game container
+        const gameContainer = document.querySelector('.main-container');
+        
+        gameContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
-        });
+            touchStartTime = Date.now();
+        }, { passive: false });
         
-        document.addEventListener('touchend', (e) => {
+        gameContainer.addEventListener('touchmove', (e) => {
+            // Prevent scrolling/pull-to-refresh when touching the game area
+            e.preventDefault();
+        }, { passive: false });
+        
+        gameContainer.addEventListener('touchend', (e) => {
+            e.preventDefault(); // Prevent any default touch behaviors
+            
             if (!touchStartX || !touchStartY) return;
             
             const touchEndX = e.changedTouches[0].clientX;
             const touchEndY = e.changedTouches[0].clientY;
+            const touchEndTime = Date.now();
             
             const dx = touchEndX - touchStartX;
             const dy = touchEndY - touchStartY;
+            const dt = touchEndTime - touchStartTime;
             
             const absDx = Math.abs(dx);
             const absDy = Math.abs(dy);
             
-            if (Math.max(absDx, absDy) > 30) {
+            // Only register swipe if movement is significant and not too slow
+            if (Math.max(absDx, absDy) > 30 && dt < 500 && !this.isAnimating) {
                 if (absDx > absDy) {
                     this.move(dx > 0 ? 'right' : 'left');
                 } else {
@@ -65,7 +89,8 @@ class Game2048 {
             
             touchStartX = 0;
             touchStartY = 0;
-        });
+            touchStartTime = 0;
+        }, { passive: false });
     }
     
     addNewTile() {
@@ -80,12 +105,25 @@ class Game2048 {
         
         if (emptyCells.length > 0) {
             const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            this.grid[randomCell.row][randomCell.col] = Math.random() < 0.9 ? 2 : 4;
+            const value = Math.random() < 0.9 ? 2 : 4;
+            this.grid[randomCell.row][randomCell.col] = value;
+            
+            // Create tile object with unique ID
+            const tileId = `tile-${this.tileIdCounter++}`;
+            this.tiles.set(tileId, {
+                value: value,
+                row: randomCell.row,
+                col: randomCell.col,
+                isNew: true
+            });
         }
     }
     
     move(direction) {
-        const previousGrid = this.grid.map(row => [...row]);
+        if (this.isAnimating) return;
+        
+        this.isAnimating = true;
+        this.previousGrid = this.grid.map(row => [...row]);
         let moved = false;
         
         if (direction === 'left' || direction === 'right') {
@@ -123,16 +161,33 @@ class Game2048 {
         }
         
         if (moved) {
-            this.addNewTile();
-            this.updateDisplay();
-            this.updateScore();
-            
-            if (this.checkWin()) {
-                this.showMessage('You Win!', 'game-won');
-            } else if (this.checkGameOver()) {
-                this.showMessage('Game Over!', 'game-over');
-            }
+            this.animateMovement().then(() => {
+                this.addNewTile();
+                this.updateDisplay();
+                this.updateScore();
+                this.isAnimating = false;
+                
+                if (this.checkWin()) {
+                    this.showMessage('You Win!', 'game-won');
+                } else if (this.checkGameOver()) {
+                    this.showMessage('Game Over!', 'game-over');
+                }
+            });
+        } else {
+            this.isAnimating = false;
         }
+    }
+    
+    animateMovement() {
+        return new Promise((resolve) => {
+            // Update display to show new positions
+            this.updateDisplay();
+            
+            // Wait for CSS transition to complete
+            setTimeout(() => {
+                resolve();
+            }, 250);
+        });
     }
     
     slideAndMerge(arr) {
