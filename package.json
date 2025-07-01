@@ -1,0 +1,29 @@
+{
+  "name": "2048-liquid-glass",
+  "version": "1.0.0",
+  "description": "2048 game with liquid glass morphism effect",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'No build process required for static files'",
+    "serve": "npx serve . -p 3000",
+    "vercel-build": "echo 'No build process required'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "2048",
+    "game",
+    "glass-morphism",
+    "web-game"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
