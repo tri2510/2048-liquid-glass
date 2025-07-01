@@ -48,8 +48,17 @@ class Game2048 {
         let touchStartY = 0;
         let touchStartTime = 0;
         
-        // Prevent default touch behaviors on the game container
+        // Prevent all scrolling and default touch behaviors
         const gameContainer = document.querySelector('.main-container');
+        
+        // Prevent document scrolling
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+        }, { passive: false });
         
         gameContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;

@@ -4,13 +4,22 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
     background: #000000;
     color: #ffffff;
-    overflow-x: hidden;
-    position: relative;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
     /* Disable pull-to-refresh and overscroll */
     overscroll-behavior: none;
     touch-action: manipulation;
@@ -112,16 +121,22 @@ body {
 
 .main-container {
     max-width: 500px;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     position: relative;
     z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
     /* Prevent mobile page refresh */
     touch-action: manipulation;
     overscroll-behavior: contain;
+    box-sizing: border-box;
 }
 
 /* LIQUID GLASS EFFECT */
@@ -178,9 +193,10 @@ body {
     flex-direction: column;
     overflow: hidden;
     border-radius: 2rem;
-    padding: 1.5rem;
+    padding: 1rem;
     box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+    flex-shrink: 0;
 }
 
 .glass-card-effect {
@@ -283,7 +299,8 @@ body {
 .game-board {
     position: relative;
     width: 100%;
-    padding-bottom: 100%;
+    aspect-ratio: 1;
+    flex-shrink: 0;
 }
 
 .grid-container {
@@ -442,25 +459,83 @@ body {
 
 @media (max-width: 520px) {
     .main-container {
-        padding: 10px;
+        padding: 5px;
+        gap: 10px;
+        height: 100vh;
+        height: 100dvh;
+    }
+    
+    .glass-card {
+        padding: 0.8rem;
     }
     
     .game-title {
-        font-size: 36px;
+        font-size: 32px;
+        margin-bottom: 15px;
+    }
+    
+    .score-wrapper {
+        gap: 10px;
+    }
+    
+    .score-container {
+        padding: 0.6rem 1rem;
+        min-width: 70px;
+    }
+    
+    .score-label {
+        font-size: 10px;
+    }
+    
+    .score-value {
+        font-size: 20px;
     }
     
     .tile {
-        font-size: 30px;
+        font-size: 28px;
     }
     
     .tile-128,
     .tile-256,
     .tile-512 {
-        font-size: 25px;
+        font-size: 22px;
     }
     
     .tile-1024,
     .tile-2048 {
-        font-size: 20px;
+        font-size: 18px;
+    }
+    
+    .instructions-card {
+        padding: 0.8rem;
+    }
+    
+    .instructions-card h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+    
+    .instructions-card p {
+        font-size: 12px;
+    }
+}
+
+@media (max-height: 700px) {
+    .main-container {
+        gap: 8px;
+        padding: 5px;
+    }
+    
+    .glass-card {
+        padding: 0.6rem;
+    }
+    
+    .game-title {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    
+    .instructions-card {
+        display: none;
     }
 }
