@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "build": "echo 'No build process required for static files'",
     "serve": "npx serve . -p 3000",
-    "vercel-build": "echo 'No build process required'",
     "deploy": "vercel --prod"
   },
   "keywords": [
@@ -21,9 +19,5 @@
   "license": "MIT",
   "devDependencies": {
     "serve": "^14.2.0"
-  },
-  "dependencies": {},
-  "engines": {
-    "node": ">=14.0.0"
   }
 }
