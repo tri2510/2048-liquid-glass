@@ -300,7 +300,7 @@ class Game2048 {
                     tileElement.classList.add('tile-moving');
                     
                     // Calculate new position using CSS calc
-                    const gapSize = 10;
+                    const gapSize = 15;
                     const totalGaps = 3;
                     tileElement.style.left = `calc(${movement.toCol} * ((100% - ${totalGaps * gapSize}px) / 4) + ${movement.toCol * gapSize}px)`;
                     tileElement.style.top = `calc(${movement.toRow} * ((100% - ${totalGaps * gapSize}px) / 4) + ${movement.toRow * gapSize}px)`;
@@ -320,8 +320,8 @@ class Game2048 {
     
     getPositionFromCoords(row, col) {
         // Calculate position to match the CSS calc formula
-        const cellPercent = (100 - 30) / 4; // (100% - 30px) / 4
-        const gapSize = 10;
+        const cellPercent = (100 - 45) / 4; // (100% - 45px) / 4
+        const gapSize = 15;
         
         return {
             left: col * cellPercent + col * gapSize,
@@ -365,9 +365,9 @@ class Game2048 {
             tile.classList.remove('tile-moving', 'tile-merging', 'tile-new');
         });
         
-        // The grid has 10px gaps between cells and cells take up the remaining space
-        // Total width = 100%, with 3 gaps of 10px each
-        const gapSize = 10; // px
+        // The grid has 15px gaps between cells and cells take up the remaining space
+        // Total width = 100%, with 3 gaps of 15px each
+        const gapSize = 15; // px
         const totalGaps = 3; // 3 gaps between 4 cells
         
         for (let r = 0; r < this.size; r++) {

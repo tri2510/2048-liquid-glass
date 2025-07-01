@@ -120,19 +120,18 @@ body {
 }
 
 .main-container {
-    max-width: 400px;
+    max-width: 500px;
     width: 95%;
-    height: 100vh;
-    height: 100dvh; /* Dynamic viewport height for mobile */
+    min-height: 100vh;
+    min-height: 100dvh;
     margin: 0 auto;
-    padding: 5px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 20px;
     position: relative;
     z-index: 1;
     overflow: hidden;
-    /* Prevent mobile page refresh */
     touch-action: manipulation;
     overscroll-behavior: contain;
     box-sizing: border-box;
@@ -161,6 +160,7 @@ body {
     overflow: hidden;
     isolation: isolate;
     border-radius: 1.5rem;
+    pointer-events: none;
 }
 
 .liquidGlass-tint {
@@ -169,6 +169,7 @@ body {
     inset: 0;
     background: rgba(255, 255, 255, 0.25);
     border-radius: 1.5rem;
+    pointer-events: none;
 }
 
 .liquidGlass-shine {
@@ -179,6 +180,7 @@ body {
     border-radius: 1.5rem;
     box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
                 inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
+    pointer-events: none;
 }
 
 .liquidGlass-content {
@@ -239,9 +241,9 @@ body {
 }
 
 .game-title {
-    font-size: 36px;
+    font-size: 48px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -257,19 +259,20 @@ body {
 
 .score-container {
     border-radius: 1.2rem;
-    padding: 0.6rem 1rem;
-    min-width: 70px;
+    padding: 0.8rem 1.2rem;
+    min-width: 90px;
     text-align: center;
 }
 
 .score-label {
-    font-size: 10px;
+    font-size: 12px;
     opacity: 0.7;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
+    font-weight: 600;
 }
 
 .score-value {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
 }
 
@@ -281,19 +284,20 @@ body {
 }
 
 .game-description {
-    font-size: 12px;
+    font-size: 16px;
     opacity: 0.8;
+    line-height: 1.4;
 }
 
 .glass-button {
     border-radius: 1.2rem;
-    padding: 0.6rem 1.2rem;
+    padding: 0.8rem 1.5rem;
     font-weight: 600;
     cursor: pointer;
     border: none;
     background: none;
     color: white;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .glass-button:hover {
@@ -303,7 +307,9 @@ body {
 .game-board {
     position: relative;
     width: 100%;
+    max-width: 450px;
     aspect-ratio: 1;
+    margin: 0 auto;
     flex-shrink: 0;
 }
 
@@ -316,11 +322,11 @@ body {
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border-radius: 15px;
-    padding: 10px;
+    border-radius: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -333,17 +339,17 @@ body {
 .grid-cell {
     flex: 1;
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 10px;
+    border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.06);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tile-container {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
     pointer-events: none;
 }
 
@@ -352,15 +358,15 @@ body {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 8px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 700;
     transition: all 0.25s cubic-bezier(0.4, 0.0, 0.2, 1);
     color: #0a0a0a;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3),
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     z-index: 10;
 }
@@ -478,91 +484,183 @@ body {
     line-height: 1.6;
 }
 
-@media (max-width: 520px) {
+/* Tablet styles */
+@media (max-width: 768px) {
     .main-container {
-        padding: 8px;
+        max-width: 400px;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .game-title {
+        font-size: 40px;
+    }
+    
+    .score-container {
+        padding: 0.6rem 1rem;
+        min-width: 75px;
+    }
+    
+    .score-value {
+        font-size: 20px;
+    }
+    
+    .glass-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 14px;
+    }
+    
+    .game-description {
+        font-size: 14px;
+    }
+    
+    .tile {
+        font-size: 30px;
+        border-radius: 10px;
+    }
+    
+    .grid-container {
+        padding: 12px;
+        gap: 12px;
+        border-radius: 16px;
+    }
+    
+    .tile-container {
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+    .main-container {
+        padding: 10px;
+        gap: 12px;
+        max-width: 350px;
+    }
+    
+    .glass-card {
+        padding: 0.8rem;
+        border-radius: 1.2rem;
+    }
+    
+    .game-title {
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+    
+    .score-wrapper {
         gap: 8px;
-        min-height: 100vh;
-        min-height: 100dvh;
-        max-width: 340px;
+    }
+    
+    .score-container {
+        padding: 0.5rem 0.8rem;
+        min-width: 65px;
+    }
+    
+    .score-label {
+        font-size: 10px;
+        margin-bottom: 3px;
+    }
+    
+    .score-value {
+        font-size: 18px;
+    }
+    
+    .game-header {
+        margin-bottom: 10px;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .game-description {
+        font-size: 13px;
+    }
+    
+    .glass-button {
+        padding: 0.5rem 1rem;
+        font-size: 13px;
+    }
+    
+    .game-board {
+        max-width: 320px;
+    }
+    
+    .tile {
+        font-size: 24px;
+        border-radius: 8px;
+    }
+    
+    .tile-128,
+    .tile-256,
+    .tile-512 {
+        font-size: 20px;
+    }
+    
+    .tile-1024,
+    .tile-2048 {
+        font-size: 16px;
+    }
+    
+    .grid-container {
+        padding: 10px;
+        gap: 10px;
+        border-radius: 14px;
+    }
+    
+    .tile-container {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+    }
+    
+    .instructions-card {
+        display: none;
+    }
+}
+
+/* Compact height screens */
+@media (max-height: 650px) {
+    .main-container {
+        gap: 8px;
+        padding: 8px;
         justify-content: center;
-        overflow: hidden;
     }
     
     .glass-card {
         padding: 0.6rem;
-        border-radius: 1rem;
-        margin: 0;
-        flex-shrink: 0;
-    }
-    
-    .header-card {
-        min-height: auto;
     }
     
     .game-title {
-        font-size: 24px;
-        margin-bottom: 6px;
-        line-height: 1.1;
-    }
-    
-    .score-wrapper {
-        gap: 6px;
-        margin: 0;
+        font-size: 28px;
+        margin-bottom: 8px;
     }
     
     .score-container {
-        padding: 0.3rem 0.6rem;
-        min-width: 55px;
-        border-radius: 0.8rem;
-    }
-    
-    .score-label {
-        font-size: 8px;
-        margin-bottom: 2px;
+        padding: 0.4rem 0.7rem;
     }
     
     .score-value {
-        font-size: 14px;
-        line-height: 1;
+        font-size: 16px;
     }
     
-    .game-card {
-        flex: 0 0 auto;
-        display: flex;
-        flex-direction: column;
+    .score-label {
+        font-size: 9px;
     }
     
     .game-header {
         margin-bottom: 8px;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .game-description {
-        font-size: 12px;
-        margin: 0;
-        flex: 1;
-    }
-    
-    .glass-button {
-        padding: 0.4rem 0.8rem;
-        font-size: 12px;
-        border-radius: 0.8rem;
     }
     
     .game-board {
-        width: 300px;
-        height: 300px;
-        max-width: 300px;
-        max-height: 300px;
-        flex-shrink: 0;
+        max-width: 280px;
     }
     
     .tile {
         font-size: 20px;
-        border-radius: 4px;
     }
     
     .tile-128,
@@ -577,46 +675,58 @@ body {
     }
     
     .instructions-card {
-        padding: 0.4rem;
         display: none;
     }
 }
 
-@media (max-height: 700px) {
+/* Very compact height screens */
+@media (max-height: 550px) {
     .main-container {
-        gap: 3px;
-        padding: 2px;
-        max-width: 300px;
-        justify-content: flex-start;
+        gap: 6px;
+        padding: 6px;
+        max-width: 320px;
     }
     
     .glass-card {
-        padding: 0.3rem;
+        padding: 0.4rem;
     }
     
     .game-title {
-        font-size: 20px;
-        margin-bottom: 4px;
-        line-height: 1;
-    }
-    
-    .score-value {
-        font-size: 12px;
-    }
-    
-    .score-label {
-        font-size: 7px;
+        font-size: 24px;
+        margin-bottom: 6px;
     }
     
     .game-header {
-        margin-bottom: 4px;
+        margin-bottom: 6px;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .game-description {
+        font-size: 11px;
+    }
+    
+    .score-container {
+        padding: 0.3rem 0.5rem;
+        min-width: 50px;
+    }
+    
+    .score-value {
+        font-size: 14px;
+    }
+    
+    .score-label {
+        font-size: 8px;
+    }
+    
+    .glass-button {
+        padding: 0.3rem 0.6rem;
+        font-size: 11px;
     }
     
     .game-board {
-        width: 100%;
-        aspect-ratio: 1;
-        max-height: 250px;
-        flex-shrink: 0;
+        max-width: 260px;
     }
     
     .tile {
@@ -632,69 +742,5 @@ body {
     .tile-1024,
     .tile-2048 {
         font-size: 10px;
-    }
-    
-    .instructions-card {
-        display: none;
-    }
-}
-
-@media (max-height: 600px) {
-    .main-container {
-        gap: 2px;
-        padding: 1px;
-        max-width: 280px;
-    }
-    
-    .glass-card {
-        padding: 0.2rem;
-    }
-    
-    .game-title {
-        font-size: 18px;
-        margin-bottom: 3px;
-    }
-    
-    .game-header {
-        margin-bottom: 3px;
-        flex-direction: column;
-        align-items: center;
-        gap: 2px;
-    }
-    
-    .game-description {
-        font-size: 9px;
-        text-align: center;
-    }
-    
-    .score-container {
-        padding: 0.2rem 0.4rem;
-        min-width: 45px;
-    }
-    
-    .score-value {
-        font-size: 11px;
-    }
-    
-    .game-board {
-        width: 100%;
-        aspect-ratio: 1;
-        max-height: 220px;
-        flex-shrink: 0;
-    }
-    
-    .tile {
-        font-size: 16px;
-    }
-    
-    .tile-128,
-    .tile-256,
-    .tile-512 {
-        font-size: 12px;
-    }
-    
-    .tile-1024,
-    .tile-2048 {
-        font-size: 9px;
     }
 }
