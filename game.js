@@ -13,6 +13,8 @@ class Game2048 {
         this.tileIdCounter = 0;
         this.tiles = new Map(); // Track tiles with unique IDs
         this.isAnimating = false;
+        this.movingTiles = [];
+        this.mergingTiles = [];
         
         this.init();
         this.bindEvents();
@@ -133,44 +135,13 @@ class Game2048 {
         
         this.isAnimating = true;
         this.previousGrid = this.grid.map(row => [...row]);
-        let moved = false;
+        this.movingTiles = [];
+        this.mergingTiles = [];
         
-        if (direction === 'left' || direction === 'right') {
-            for (let r = 0; r < this.size; r++) {
-                const row = this.grid[r];
-                const filtered = direction === 'left' ? 
-                    this.slideAndMerge(row) : 
-                    this.slideAndMerge(row.reverse()).reverse();
-                    
-                if (JSON.stringify(filtered) !== JSON.stringify(row)) {
-                    moved = true;
-                }
-                
-                this.grid[r] = direction === 'left' ? filtered : filtered;
-            }
-        } else {
-            for (let c = 0; c < this.size; c++) {
-                const column = [];
-                for (let r = 0; r < this.size; r++) {
-                    column.push(this.grid[r][c]);
-                }
-                
-                const filtered = direction === 'up' ? 
-                    this.slideAndMerge(column) : 
-                    this.slideAndMerge(column.reverse()).reverse();
-                    
-                if (JSON.stringify(filtered) !== JSON.stringify(column)) {
-                    moved = true;
-                }
-                
-                for (let r = 0; r < this.size; r++) {
-                    this.grid[r][c] = filtered[direction === 'up' ? r : r];
-                }
-            }
-        }
+        const movements = this.calculateMovements(direction);
         
-        if (moved) {
-            this.animateMovement().then(() => {
+        if (movements.length > 0) {
+            this.animateMovements(movements).then(() => {
                 this.addNewTile();
                 this.updateDisplay();
                 this.updateScore();
@@ -187,16 +158,175 @@ class Game2048 {
         }
     }
     
-    animateMovement() {
-        return new Promise((resolve) => {
-            // Update display to show new positions
-            this.updateDisplay();
+    calculateMovements(direction) {
+        const movements = [];
+        const newGrid = Array(this.size).fill().map(() => Array(this.size).fill(0));
+        
+        if (direction === 'left' || direction === 'right') {
+            for (let r = 0; r < this.size; r++) {
+                const row = this.grid[r].slice();
+                const result = this.slideAndMergeWithTracking(row, direction === 'right');
+                newGrid[r] = result.row;
+                
+                // Track movements
+                result.movements.forEach(movement => {
+                    movements.push({
+                        fromRow: r,
+                        fromCol: movement.from,
+                        toRow: r,
+                        toCol: movement.to,
+                        value: movement.value,
+                        merged: movement.merged
+                    });
+                });
+            }
+        } else {
+            for (let c = 0; c < this.size; c++) {
+                const column = [];
+                for (let r = 0; r < this.size; r++) {
+                    column.push(this.grid[r][c]);
+                }
+                
+                const result = this.slideAndMergeWithTracking(column, direction === 'down');
+                
+                // Set column values
+                result.row.forEach((value, r) => {
+                    newGrid[r][c] = value;
+                });
+                
+                // Track movements
+                result.movements.forEach(movement => {
+                    movements.push({
+                        fromRow: movement.from,
+                        fromCol: c,
+                        toRow: movement.to,
+                        toCol: c,
+                        value: movement.value,
+                        merged: movement.merged
+                    });
+                });
+            }
+        }
+        
+        this.grid = newGrid;
+        return movements;
+    }
+    
+    slideAndMergeWithTracking(arr, reverse = false) {
+        const movements = [];
+        const workingArray = reverse ? arr.slice().reverse() : arr.slice();
+        const filtered = [];
+        const originalPositions = [];
+        
+        // Track original positions of non-zero values
+        workingArray.forEach((value, index) => {
+            if (value !== 0) {
+                filtered.push(value);
+                originalPositions.push(reverse ? arr.length - 1 - index : index);
+            }
+        });
+        
+        const merged = [];
+        let targetIndex = 0;
+        let skip = false;
+        
+        for (let i = 0; i < filtered.length; i++) {
+            if (skip) {
+                skip = false;
+                continue;
+            }
             
-            // Wait for CSS transition to complete
+            const currentValue = filtered[i];
+            const originalPos = originalPositions[i];
+            
+            if (i < filtered.length - 1 && filtered[i] === filtered[i + 1]) {
+                // Merge tiles
+                const mergedValue = currentValue * 2;
+                merged.push(mergedValue);
+                this.score += mergedValue;
+                
+                // Movement for first tile
+                movements.push({
+                    from: originalPos,
+                    to: reverse ? arr.length - 1 - targetIndex : targetIndex,
+                    value: currentValue,
+                    merged: true
+                });
+                
+                // Movement for second tile
+                movements.push({
+                    from: originalPositions[i + 1],
+                    to: reverse ? arr.length - 1 - targetIndex : targetIndex,
+                    value: currentValue,
+                    merged: true
+                });
+                
+                skip = true;
+            } else {
+                // Just move tile
+                merged.push(currentValue);
+                movements.push({
+                    from: originalPos,
+                    to: reverse ? arr.length - 1 - targetIndex : targetIndex,
+                    value: currentValue,
+                    merged: false
+                });
+            }
+            targetIndex++;
+        }
+        
+        // Fill remaining positions with zeros
+        while (merged.length < arr.length) {
+            merged.push(0);
+        }
+        
+        const result = reverse ? merged.reverse() : merged;
+        return { row: result, movements };
+    }
+    
+    animateMovements(movements) {
+        return new Promise((resolve) => {
+            // First, animate all tiles to their new positions
+            movements.forEach(movement => {
+                // Find existing tile element at from position using data attributes
+                const tiles = Array.from(this.tileContainer.children);
+                const tileElement = tiles.find(tile => {
+                    return parseInt(tile.dataset.row) === movement.fromRow && 
+                           parseInt(tile.dataset.col) === movement.fromCol &&
+                           parseInt(tile.dataset.value) === movement.value;
+                });
+                
+                if (tileElement) {
+                    tileElement.classList.add('tile-moving');
+                    
+                    // Calculate new position using CSS calc
+                    const gapSize = 10;
+                    const totalGaps = 3;
+                    tileElement.style.left = `calc(${movement.toCol} * ((100% - ${totalGaps * gapSize}px) / 4) + ${movement.toCol * gapSize}px)`;
+                    tileElement.style.top = `calc(${movement.toRow} * ((100% - ${totalGaps * gapSize}px) / 4) + ${movement.toRow * gapSize}px)`;
+                    
+                    if (movement.merged) {
+                        tileElement.classList.add('tile-merging');
+                    }
+                }
+            });
+            
+            // Wait for animations to complete, then update display
             setTimeout(() => {
                 resolve();
             }, 250);
         });
+    }
+    
+    getPositionFromCoords(row, col) {
+        // Calculate position to match the CSS calc formula
+        const cellPercent = (100 - 30) / 4; // (100% - 30px) / 4
+        const gapSize = 10;
+        
+        return {
+            left: col * cellPercent + col * gapSize,
+            top: row * cellPercent + row * gapSize
+        };
     }
     
     slideAndMerge(arr) {
@@ -229,6 +359,12 @@ class Game2048 {
     updateDisplay() {
         this.tileContainer.innerHTML = '';
         
+        // Clear animation classes from any existing tiles
+        const existingTiles = Array.from(this.tileContainer.children);
+        existingTiles.forEach(tile => {
+            tile.classList.remove('tile-moving', 'tile-merging', 'tile-new');
+        });
+        
         // The grid has 10px gaps between cells and cells take up the remaining space
         // Total width = 100%, with 3 gaps of 10px each
         const gapSize = 10; // px
@@ -240,6 +376,9 @@ class Game2048 {
                     const tile = document.createElement('div');
                     tile.className = `tile tile-${this.grid[r][c]} tile-new`;
                     tile.textContent = this.grid[r][c];
+                    tile.dataset.row = r;
+                    tile.dataset.col = c;
+                    tile.dataset.value = this.grid[r][c];
                     
                     // Calculate position and size
                     // Each cell width = (100% - 30px) / 4
