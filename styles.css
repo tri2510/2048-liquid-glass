@@ -480,26 +480,20 @@ body {
 
 @media (max-width: 520px) {
     .main-container {
-        padding: 2px;
-        gap: 4px;
+        padding: 8px;
+        gap: 8px;
         min-height: 100vh;
         min-height: 100dvh;
-        max-width: 320px;
+        max-width: 340px;
         justify-content: center;
         overflow: hidden;
     }
     
     .glass-card {
-        padding: 0.4rem;
+        padding: 0.6rem;
         border-radius: 1rem;
         margin: 0;
         flex-shrink: 0;
-    }
-    
-    .game-card {
-        flex-shrink: 0;
-        flex-grow: 0;
-        max-height: none;
     }
     
     .header-card {
@@ -540,29 +534,30 @@ body {
     }
     
     .game-header {
-        margin-bottom: 6px;
-        align-items: flex-start;
+        margin-bottom: 8px;
+        align-items: center;
         flex-wrap: wrap;
-        gap: 4px;
+        gap: 8px;
     }
     
     .game-description {
-        font-size: 10px;
+        font-size: 12px;
         margin: 0;
         flex: 1;
     }
     
     .glass-button {
-        padding: 0.3rem 0.6rem;
-        font-size: 11px;
+        padding: 0.4rem 0.8rem;
+        font-size: 12px;
         border-radius: 0.8rem;
     }
     
     .game-board {
-        width: 100%;
-        max-width: 280px;
-        max-height: 280px;
-        aspect-ratio: 1;
+        width: 300px;
+        height: 300px;
+        max-width: 300px;
+        max-height: 300px;
+        flex-shrink: 0;
     }
     
     .tile {
