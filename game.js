@@ -396,12 +396,21 @@ class Game2048 {
     }
     
     updateDisplay() {
-        this.tileContainer.innerHTML = '';
-        
-        // Clear animation classes from any existing tiles
+        // Remove old tiles that no longer exist in the grid, but keep score popups
         const existingTiles = Array.from(this.tileContainer.children);
         existingTiles.forEach(tile => {
-            tile.classList.remove('tile-moving', 'tile-merging', 'tile-new');
+            if (tile.classList.contains('score-popup')) return; // Keep score popups
+            
+            const row = parseInt(tile.dataset.row);
+            const col = parseInt(tile.dataset.col);
+            const value = parseInt(tile.dataset.value);
+            
+            if (isNaN(row) || isNaN(col) || this.grid[row][col] !== value) {
+                tile.remove();
+            } else {
+                // Clean up animation classes from existing tiles
+                tile.classList.remove('tile-moving', 'tile-merging');
+            }
         });
         
         // The grid has 15px gaps between cells and cells take up the remaining space
@@ -412,21 +421,31 @@ class Game2048 {
         for (let r = 0; r < this.size; r++) {
             for (let c = 0; c < this.size; c++) {
                 if (this.grid[r][c] !== 0) {
-                    const tile = document.createElement('div');
-                    tile.className = `tile tile-${this.grid[r][c]} tile-new`;
-                    tile.textContent = this.grid[r][c];
-                    tile.dataset.row = r;
-                    tile.dataset.col = c;
-                    tile.dataset.value = this.grid[r][c];
+                    // Check if tile already exists at this position with this value
+                    let existingTile = Array.from(this.tileContainer.children).find(tile => {
+                        return !tile.classList.contains('score-popup') &&
+                               parseInt(tile.dataset.row) === r && 
+                               parseInt(tile.dataset.col) === c &&
+                               parseInt(tile.dataset.value) === this.grid[r][c];
+                    });
                     
-                    // Calculate position and size
-                    // Each cell width = (100% - 30px) / 4
-                    tile.style.width = `calc((100% - ${totalGaps * gapSize}px) / 4)`;
-                    tile.style.height = `calc((100% - ${totalGaps * gapSize}px) / 4)`;
-                    tile.style.left = `calc(${c} * ((100% - ${totalGaps * gapSize}px) / 4) + ${c * gapSize}px)`;
-                    tile.style.top = `calc(${r} * ((100% - ${totalGaps * gapSize}px) / 4) + ${r * gapSize}px)`;
-                    
-                    this.tileContainer.appendChild(tile);
+                    if (!existingTile) {
+                        // Create new tile only if it doesn't exist
+                        const tile = document.createElement('div');
+                        tile.className = `tile tile-${this.grid[r][c]} tile-new`;
+                        tile.textContent = this.grid[r][c];
+                        tile.dataset.row = r;
+                        tile.dataset.col = c;
+                        tile.dataset.value = this.grid[r][c];
+                        
+                        // Calculate position and size
+                        tile.style.width = `calc((100% - ${totalGaps * gapSize}px) / 4)`;
+                        tile.style.height = `calc((100% - ${totalGaps * gapSize}px) / 4)`;
+                        tile.style.left = `calc(${c} * ((100% - ${totalGaps * gapSize}px) / 4) + ${c * gapSize}px)`;
+                        tile.style.top = `calc(${r} * ((100% - ${totalGaps * gapSize}px) / 4) + ${r * gapSize}px)`;
+                        
+                        this.tileContainer.appendChild(tile);
+                    }
                 }
             }
         }
