@@ -452,12 +452,66 @@ class Game2048 {
     }
     
     updateScore() {
+        const oldScore = parseInt(this.scoreDisplay.textContent) || 0;
         this.scoreDisplay.textContent = this.score;
+        
+        // Add score animation if score increased
+        if (this.score > oldScore) {
+            this.scoreDisplay.classList.add('score-updated');
+            setTimeout(() => {
+                this.scoreDisplay.classList.remove('score-updated');
+            }, 400);
+        }
+        
         if (this.score > this.best) {
             this.best = this.score;
             this.bestDisplay.textContent = this.best;
             localStorage.setItem('best2048', this.best);
+            
+            // Animate best score too
+            this.bestDisplay.classList.add('score-updated');
+            setTimeout(() => {
+                this.bestDisplay.classList.remove('score-updated');
+            }, 400);
         }
+        
+        // Update background based on highest tile
+        this.updateBackground();
+    }
+    
+    updateBackground() {
+        const backgroundElement = document.querySelector('.background-gradient');
+        const highestTile = this.getHighestTile();
+        
+        // Remove all stage classes
+        backgroundElement.classList.remove('stage-1', 'stage-2', 'stage-3', 'stage-4', 'stage-5', 'stage-6');
+        
+        // Add appropriate stage class based on highest tile
+        if (highestTile >= 2048) {
+            backgroundElement.classList.add('stage-6');
+        } else if (highestTile >= 1024) {
+            backgroundElement.classList.add('stage-5');
+        } else if (highestTile >= 512) {
+            backgroundElement.classList.add('stage-4');
+        } else if (highestTile >= 256) {
+            backgroundElement.classList.add('stage-3');
+        } else if (highestTile >= 64) {
+            backgroundElement.classList.add('stage-2');
+        } else {
+            backgroundElement.classList.add('stage-1');
+        }
+    }
+    
+    getHighestTile() {
+        let highest = 0;
+        for (let r = 0; r < this.size; r++) {
+            for (let c = 0; c < this.size; c++) {
+                if (this.grid[r][c] > highest) {
+                    highest = this.grid[r][c];
+                }
+            }
+        }
+        return highest;
     }
     
     checkWin() {
