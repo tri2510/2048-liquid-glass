@@ -317,7 +317,9 @@ body {
 }
 
 .new-game-button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 12px 24px;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
@@ -339,6 +341,9 @@ body {
     z-index: 1000;
     min-height: 44px;
     isolation: isolate;
+    overflow: hidden;
+    text-align: center;
+    line-height: 1;
 }
 
 .new-game-button:hover {
