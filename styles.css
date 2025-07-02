@@ -447,7 +447,6 @@ body {
 }
 
 .tile-merging {
-    animation: merge-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     z-index: 30;
     position: relative;
 }
@@ -483,22 +482,11 @@ body {
     background: inherit;
     border-radius: inherit;
     opacity: 0;
-    animation: merge-flash 0.15s ease-out;
+    animation: merge-flash 0.2s ease-out;
     pointer-events: none;
     z-index: -1;
 }
 
-@keyframes merge-pop {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
 
 @keyframes merge-burst {
     0% {
@@ -593,10 +581,6 @@ body {
         0 -45px 0 -4px rgba(255, 255, 255, 0.7);
 }
 
-.tile-1024.tile-merging,
-.tile-2048.tile-merging {
-    animation: merge-pop-epic 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
 
 @keyframes merge-burst-epic {
     0% {
@@ -647,20 +631,6 @@ body {
     }
 }
 
-@keyframes merge-pop-epic {
-    0% {
-        transform: scale(1);
-    }
-    30% {
-        transform: scale(0.95);
-    }
-    60% {
-        transform: scale(1.3);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
 
 .tile-2 { 
     background: linear-gradient(135deg, rgba(220, 240, 255, 0.4), rgba(180, 220, 255, 0.2));
