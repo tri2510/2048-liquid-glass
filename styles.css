@@ -324,14 +324,15 @@ body {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 12px;
     color: white;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
     white-space: nowrap;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -344,6 +345,7 @@ body {
     overflow: hidden;
     text-align: center;
     line-height: 1;
+    background-clip: padding-box;
 }
 
 .new-game-button:hover {
@@ -355,6 +357,15 @@ body {
 .new-game-button:active {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.new-game-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    z-index: -1;
 }
 
 .game-board {
