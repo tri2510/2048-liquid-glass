@@ -432,7 +432,7 @@ class Game2048 {
                     if (!existingTile) {
                         // Create new tile only if it doesn't exist
                         const tile = document.createElement('div');
-                        tile.className = `tile tile-${this.grid[r][c]} tile-new`;
+                        tile.className = `tile tile-${this.grid[r][c]}`;
                         tile.textContent = this.grid[r][c];
                         tile.dataset.row = r;
                         tile.dataset.col = c;
