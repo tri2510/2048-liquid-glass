@@ -447,19 +447,90 @@ body {
 }
 
 .tile-merging {
-    animation: merge 0.25s ease-in-out;
+    animation: merge 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     z-index: 30;
+    position: relative;
+}
+
+.tile-merging::before {
+    content: '';
+    position: absolute;
+    inset: -15px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    animation: merge-glow 0.5s ease-out;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.tile-merging::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    background: inherit;
+    border-radius: inherit;
+    filter: blur(8px);
+    opacity: 0;
+    animation: merge-pulse 0.5s ease-out;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes merge-pulse {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes merge-glow {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(2);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(3);
+    }
 }
 
 @keyframes merge {
     0% {
-        transform: scale(1);
+        transform: scale(1) rotate(0deg);
+        filter: brightness(1) saturate(1);
+    }
+    15% {
+        transform: scale(0.9) rotate(-3deg);
+        filter: brightness(1.1) saturate(1.2);
     }
     50% {
-        transform: scale(1.15);
+        transform: scale(1.4) rotate(2deg);
+        filter: brightness(1.8) saturate(2.5);
+        box-shadow: 0 15px 60px rgba(255, 255, 255, 0.6),
+                    0 0 40px rgba(255, 255, 255, 0.8),
+                    inset 0 4px 0 rgba(255, 255, 255, 0.7),
+                    inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+    }
+    75% {
+        transform: scale(1.1) rotate(-1deg);
+        filter: brightness(1.4) saturate(1.8);
     }
     100% {
-        transform: scale(1);
+        transform: scale(1) rotate(0deg);
+        filter: brightness(1) saturate(1);
     }
 }
 
