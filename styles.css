@@ -187,6 +187,7 @@ body {
 .liquidGlass-content {
     z-index: 3;
     position: relative;
+    pointer-events: auto;
 }
 
 /* Glass card with liquid effect */
@@ -299,6 +300,8 @@ body {
     background: none;
     color: white;
     font-size: 16px;
+    pointer-events: auto;
+    position: relative;
 }
 
 .glass-button:hover {
