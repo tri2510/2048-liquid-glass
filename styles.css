@@ -464,56 +464,98 @@ body {
 }
 
 .tile-2 { 
-    background: linear-gradient(135deg, rgba(238, 228, 218, 0.3), rgba(238, 228, 218, 0.1));
+    background: linear-gradient(135deg, rgba(220, 240, 255, 0.4), rgba(180, 220, 255, 0.2));
     color: #ffffff;
+    box-shadow: 0 8px 32px rgba(180, 220, 255, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(180, 220, 255, 0.2);
 }
 .tile-4 { 
-    background: linear-gradient(135deg, rgba(237, 224, 200, 0.35), rgba(237, 224, 200, 0.15));
+    background: linear-gradient(135deg, rgba(255, 220, 255, 0.45), rgba(255, 180, 255, 0.25));
     color: #ffffff;
+    box-shadow: 0 8px 32px rgba(255, 180, 255, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 180, 255, 0.2);
 }
 .tile-8 { 
-    background: linear-gradient(135deg, rgba(242, 177, 121, 0.4), rgba(242, 177, 121, 0.2));
+    background: linear-gradient(135deg, rgba(255, 200, 120, 0.5), rgba(255, 160, 80, 0.3));
     color: #ffffff;
+    box-shadow: 0 8px 32px rgba(255, 160, 80, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 160, 80, 0.2);
 }
 .tile-16 { 
-    background: linear-gradient(135deg, rgba(245, 149, 99, 0.45), rgba(245, 149, 99, 0.25));
+    background: linear-gradient(135deg, rgba(255, 140, 100, 0.55), rgba(255, 100, 60, 0.35));
     color: #ffffff;
+    box-shadow: 0 8px 32px rgba(255, 100, 60, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 100, 60, 0.2);
 }
 .tile-32 { 
-    background: linear-gradient(135deg, rgba(246, 124, 95, 0.5), rgba(246, 124, 95, 0.3));
+    background: linear-gradient(135deg, rgba(255, 80, 80, 0.6), rgba(255, 40, 40, 0.4));
     color: #ffffff;
+    box-shadow: 0 8px 32px rgba(255, 40, 40, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 40, 40, 0.3);
 }
 .tile-64 { 
-    background: linear-gradient(135deg, rgba(246, 94, 59, 0.55), rgba(246, 94, 59, 0.35));
+    background: linear-gradient(135deg, rgba(255, 60, 120, 0.65), rgba(255, 20, 80, 0.45));
     color: #ffffff;
+    box-shadow: 0 8px 32px rgba(255, 20, 80, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 20, 80, 0.3);
 }
 .tile-128 { 
-    background: linear-gradient(135deg, rgba(237, 207, 114, 0.6), rgba(237, 207, 114, 0.4));
+    background: linear-gradient(135deg, rgba(200, 255, 100, 0.7), rgba(160, 255, 60, 0.5));
     color: #ffffff;
     font-size: 35px;
+    box-shadow: 0 8px 32px rgba(160, 255, 60, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(160, 255, 60, 0.3);
 }
 .tile-256 { 
-    background: linear-gradient(135deg, rgba(237, 204, 97, 0.65), rgba(237, 204, 97, 0.45));
+    background: linear-gradient(135deg, rgba(120, 255, 120, 0.75), rgba(80, 255, 80, 0.55));
     color: #ffffff;
     font-size: 35px;
+    box-shadow: 0 8px 32px rgba(80, 255, 80, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(80, 255, 80, 0.3);
 }
 .tile-512 { 
-    background: linear-gradient(135deg, rgba(237, 200, 80, 0.7), rgba(237, 200, 80, 0.5));
+    background: linear-gradient(135deg, rgba(100, 255, 200, 0.8), rgba(60, 255, 160, 0.6));
     color: #ffffff;
     font-size: 35px;
+    box-shadow: 0 8px 32px rgba(60, 255, 160, 0.6),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(60, 255, 160, 0.3);
 }
 .tile-1024 { 
-    background: linear-gradient(135deg, rgba(237, 197, 63, 0.75), rgba(237, 197, 63, 0.55));
+    background: linear-gradient(135deg, rgba(80, 200, 255, 0.85), rgba(40, 160, 255, 0.65));
     color: #ffffff;
     font-size: 30px;
+    box-shadow: 0 8px 32px rgba(40, 160, 255, 0.6),
+                inset 0 2px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(40, 160, 255, 0.4);
 }
 .tile-2048 { 
-    background: linear-gradient(135deg, rgba(237, 194, 46, 0.8), rgba(237, 194, 46, 0.6));
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.9), rgba(255, 165, 0, 0.7));
     color: #ffffff;
     font-size: 30px;
-    box-shadow: 0 8px 32px rgba(237, 194, 46, 0.4),
+    box-shadow: 0 8px 32px rgba(255, 165, 0, 0.7),
                 inset 0 2px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+                inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 165, 0, 0.4),
+                0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 .tile-new {
