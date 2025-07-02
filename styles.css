@@ -150,6 +150,8 @@ body {
     box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
     z-index: 50;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .liquidGlass-effect {
@@ -236,6 +238,7 @@ body {
 .glass-card-content {
     z-index: 3;
     position: relative;
+    overflow: visible;
 }
 
 .header-card {
@@ -283,6 +286,8 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    position: relative;
+    z-index: 60;
 }
 
 .game-description {
@@ -306,6 +311,16 @@ body {
 
 .glass-button:hover {
     transform: scale(1.05);
+}
+
+#new-game {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    min-height: 44px; /* iOS touch target size */
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .game-board {
@@ -535,6 +550,23 @@ body {
         left: 12px;
         right: 12px;
         bottom: 12px;
+    }
+}
+
+/* Touch device fixes */
+@media (hover: none) and (pointer: coarse) {
+    .glass-button,
+    .liquidGlass-wrapper {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+    
+    .liquidGlass-wrapper * {
+        pointer-events: none !important;
+    }
+    
+    .liquidGlass-wrapper {
+        pointer-events: auto !important;
     }
 }
 
