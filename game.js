@@ -328,6 +328,24 @@ class Game2048 {
                     
                     if (movement.merged) {
                         tileElement.classList.add('tile-merging');
+                        
+                        // Create score popup
+                        const popup = document.createElement('div');
+                        popup.className = 'score-popup';
+                        popup.textContent = `+${movement.value}`;
+                        
+                        // Position popup at tile center
+                        popup.style.left = tileElement.style.left;
+                        popup.style.top = tileElement.style.top;
+                        
+                        this.tileContainer.appendChild(popup);
+                        
+                        // Remove popup after animation
+                        setTimeout(() => {
+                            if (popup.parentNode) {
+                                popup.parentNode.removeChild(popup);
+                            }
+                        }, 1000);
                     }
                 }
             });
