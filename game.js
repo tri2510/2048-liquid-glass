@@ -34,8 +34,29 @@ class Game2048 {
     }
     
     bindEvents() {
-        document.getElementById('new-game').addEventListener('click', () => this.init());
-        document.querySelector('.retry-button').addEventListener('click', () => this.init());
+        // Add both click and touchend events for better mobile compatibility
+        const newGameBtn = document.getElementById('new-game');
+        const retryBtn = document.querySelector('.retry-button');
+        
+        // New game button
+        newGameBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.init();
+        });
+        newGameBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            this.init();
+        });
+        
+        // Retry button
+        retryBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.init();
+        });
+        retryBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            this.init();
+        });
         
         document.addEventListener('keydown', (e) => {
             if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {

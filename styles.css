@@ -215,6 +215,7 @@ body {
     overflow: hidden;
     isolation: isolate;
     border-radius: 1.5rem;
+    pointer-events: none;
 }
 
 .glass-card-tint {
@@ -223,6 +224,7 @@ body {
     inset: 0;
     background: rgba(255, 255, 255, 0.25);
     border-radius: 1.5rem;
+    pointer-events: none;
 }
 
 .glass-card-shine {
@@ -233,6 +235,7 @@ body {
     box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
                 inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
     border-radius: 1.5rem;
+    pointer-events: none;
 }
 
 .glass-card-content {
@@ -333,8 +336,9 @@ body {
     -webkit-user-select: none;
     user-select: none;
     position: relative;
-    z-index: 100;
+    z-index: 1000;
     min-height: 44px;
+    isolation: isolate;
 }
 
 .new-game-button:hover {
